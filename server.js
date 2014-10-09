@@ -10,8 +10,6 @@ var request = require('request'),
 
 routes(app, request, cheerio);
 
-server.listen(config.port, config.ip, function() {
-	server.close(function() {
-		server.listen(config.port, config.ip);
-	})
+server.listen(config.port, function() {
+  console.log("Listening on " + config.port);
 });
