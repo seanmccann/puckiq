@@ -11,7 +11,7 @@ function GameHandler(request, cheerio) {
 	"use strict";
 
 	var htmlReportsUrl = 'www.nhl.com/scores/htmlreports';
-	
+
 	this.getPlayByPlay = function(req, res) {
 		var season = parseInt(req.params.season);
 		switch(req.params.gametype) {
@@ -75,7 +75,7 @@ function GameHandler(request, cheerio) {
 					events.push(eventvalue);
 			})
 			fenwick['events'] = events;
-			
+
 			res.send(fenwick);
 		});
 	}
@@ -114,7 +114,7 @@ function GameHandler(request, cheerio) {
 					events.push(eventvalue);
 			})
 			corsi['events'] = events;
-			
+
 			res.send(corsi);
 		});
 	}
@@ -153,7 +153,7 @@ function GameHandler(request, cheerio) {
 					events.push(eventvalue);
 			})
 			shots['events'] = events;
-			
+
 			res.send(shots);
 		});
 	}
@@ -192,7 +192,7 @@ function GameHandler(request, cheerio) {
 					events.push(eventvalue);
 			})
 			goals['events'] = events;
-			
+
 			res.send(goals);
 		});
 	}
@@ -227,10 +227,11 @@ function GameHandler(request, cheerio) {
 				});
 
 				nhlgame['gamedate'] = $('#GameInfo').first().children('tr:nth-child(4)').text().trim();
-				var gametime = ($('#GameInfo').first().children('tr:nth-child(6)').text().replace('Start','').trim().split(';')[0]).split(':');
+				var gametime = ($('#GameInfo').first().children('tr:nth-child(6)').text().replace('Start','').replace('D\xE9but/','').trim().split(';')[0]).split(':');
 
+				// nhlgame['gamestart'] = gametime;//(parseInt(gametime[0]) < 10) ? sprintf('%02f', parseInt(gametime[0])+12) + ':' + gametime[1].trim() : sprintf('%02f', parseInt(gametime[0])) + ':' + gametime[1].trim();
 				nhlgame['gamestart'] = (parseInt(gametime[0]) < 10) ? sprintf('%02f', parseInt(gametime[0])+12) + ':' + gametime[1].trim() : sprintf('%02f', parseInt(gametime[0])) + ':' + gametime[1].trim();
-				
+
 				var getEvents = $('tr.evenColor');
 				var events = new Array();
 
@@ -298,7 +299,7 @@ function GameHandler(request, cheerio) {
 											singleEvent['eventtype'] = $(colValue).text();
 											break;
 									}
-									
+
 								}
 								break;
 							case 5:
